@@ -101,7 +101,7 @@ myManageHook :: Query (Endo WindowSet)
 myManageHook =
   composeAll
     [ manageSpawn
-    , insertPosition Below Newer
+    , insertPosition Above Newer
     ]
 
 resizableTiled = renamed [Replace "tall"]
@@ -242,7 +242,8 @@ myXConfig = def
   , mouseBindings = myMouseBindings
   , layoutHook = myLayout
   , manageHook = myManageHook
-  , handleEventHook = swallowEventHook (className =? "st-256color") (return True) -- <||> className =? "Alacritty") (return True)
+  , handleEventHook = swallowEventHook (className =? "st-256color") (return True)
+                  -- <||> className =? "Alacritty") (return True)
   , logHook = workspaceHistoryHook
   , startupHook = do
       spawnOnce "polybar"
