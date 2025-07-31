@@ -1,0 +1,12 @@
+jobs: $ncpus
+write-ghc-environment-files: always
+packages:
+        *
+        */*.cabal
+
+package *
+    optimization: 2
+    documentation: False
+    haddock-all: False
+    haddock-hyperlink-source: False
+    executable-stripping: True

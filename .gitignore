@@ -1,4 +1,11 @@
 dist-newstyle
 xmonad
+xmonad-contrib
 xmonad-x86_64-freebsd
 xmonad.errors
+TAGS
+TODOs
+*.o
+*.hi
+scripts/*
+scripts-void/*

@@ -26,40 +26,42 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.ResizableThreeColumns
 import XMonad.Layout.ResizableTile
-import XMonad.Layout.SimplestFloat
 import XMonad.Layout.SimpleFloat
+import XMonad.Layout.Simplest
+import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Spacing
 import XMonad.Layout.Tabbed
 import XMonad.Layout.WindowArranger
-import XMonad.Layout.Simplest
 
   -- Actions
-import XMonad.Actions.SpawnOn
-import XMonad.Actions.MouseResize
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.CycleWS
 import XMonad.Actions.Minimize
+import XMonad.Actions.MouseResize
+import XMonad.Actions.SpawnOn
 
   -- Hooks
-import XMonad.Hooks.InsertPosition
-import XMonad.Hooks.Place
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.FadeWindows
-import XMonad.Hooks.WorkspaceHistory
-import XMonad.Hooks.WindowSwallowing
-import XMonad.Hooks.SetWMName
-import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.FadeWindows
+import XMonad.Hooks.InsertPosition
+import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.Place
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.WindowSwallowing
+import XMonad.Hooks.WorkspaceHistory
 
   -- Utils
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
-import XMonad.Util.SpawnOnce
-import XMonad.Util.Run
 import XMonad.Util.NamedWindows
+import XMonad.Util.Run
+import XMonad.Util.SpawnOnce
 
+import XMonad.Prompt
+import XMonad.Prompt.Input
   -- My Extensions
 import XMonad.Ext
 
@@ -154,7 +156,7 @@ myKeys conf =
                , ("M-S-q"        , io exitSuccess)
                , ("M-S-r"        , refresh)
                , ("M-S-b"        , sendMessage ToggleStruts)
-               , ("M-<Return>"   , spawn (terminal conf))
+               , ("M-`"          , spawn (terminal conf))
                , ("M-e"          , spawn "emacs")
                , ("M-<Space>"    , spawn "~/.xmonad/scripts/run-recent" )
                , ("M-p"          , spawn "~/.xmonad/scripts/pass" )
@@ -224,9 +226,9 @@ toggleFull = sendMessage (Toggle FULL) >> sendMessage ToggleStruts
 
 main :: IO ()
 main = xmonad
-     . docks
      . ewmh
      . ewmhFullscreen
+     . docks
      $ myXConfig
 
 myXConfig = def
@@ -244,7 +246,7 @@ myXConfig = def
   , manageHook = myManageHook
   , handleEventHook = swallowEventHook (className =? "st-256color") (return True)
                   -- <||> className =? "Alacritty") (return True)
-  , logHook = workspaceHistoryHook
+  , logHook = myLogHook
   , startupHook = do
       spawnOnce "polybar"
       spawnOnOnce "9" "st -e btm"
